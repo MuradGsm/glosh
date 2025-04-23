@@ -7,6 +7,8 @@ class Settings(BaseSettings):
     POSTGRES_DB: str
     DB_HOST: str
     DB_PORT: str = '5432'
+    SECRET_KEY: str
+    ALGORITHM:  str
 
     @property
     def DATA_URL(self):
@@ -18,4 +20,8 @@ class Settings(BaseSettings):
     
     model_config=SettingsConfigDict(env_file='.env')
 
+
 settings = Settings()
+
+def get_auth_data():
+    return {"secret_key": settings.SECRET_KEY, "algorithm": settings.ALGORITHM}
