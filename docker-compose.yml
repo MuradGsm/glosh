@@ -3,6 +3,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    volumes:
+      - .:/code
     env_file:
       - .env
     ports:
