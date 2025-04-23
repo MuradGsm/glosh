@@ -1,1 +1,1 @@
-# glosh
+GOLSH – Get Opportunities, Land Smart Hiring
