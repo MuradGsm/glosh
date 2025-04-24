@@ -6,7 +6,7 @@ class User(Base):
     id: Mapped[pk_int]
     phone_number: Mapped[str]
     first_name: Mapped[str]
-    first_name: Mapped[str]
+    last_name: Mapped[str]
     email: Mapped[str] = mapped_column(unique=True, index=True)
     hashed_password: Mapped[str]
 
