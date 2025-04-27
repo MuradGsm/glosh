@@ -11,6 +11,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../.
 
 from app.db.database import Base
 from app.models.user_model import *
+from app.models.vacancy_model import *
 from app.core.config import settings
 
 config = context.config

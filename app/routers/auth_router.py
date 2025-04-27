@@ -9,9 +9,9 @@ from app.core.security import get_password_hash, verify_password, create_access_
 from app.dependencies.auth import get_current_user
 
 
-router =APIRouter()
+auth_router =APIRouter()
 
-@router.post('/register', response_model=UserResponse)
+@auth_router.post('/register', response_model=UserResponse)
 async def register(user:UserCreate, db: AsyncSession=Depends(get_session)):
     existing_user = await db.execute(select(User).filter(User.email == user.email))
     existing_user = existing_user.scalar()
@@ -37,7 +37,7 @@ async def register(user:UserCreate, db: AsyncSession=Depends(get_session)):
 
     return new_user
 
-@router.post("/login", response_model=TokenResponse)
+@auth_router.post("/login", response_model=TokenResponse)
 async def login(
     form_data: OAuth2PasswordRequestForm = Depends(),
     db: AsyncSession = Depends(get_session),
@@ -55,6 +55,6 @@ async def login(
     access_token = create_access_token({"sub": user.email})
     return {"access_token": access_token, "token_type": "bearer"}
 
-@router.get("/me", response_model=UserResponse)
+@auth_router.get("/me", response_model=UserResponse)
 async def read_users_me(current_user: User = Depends(get_current_user)):
     return current_user
