@@ -7,7 +7,7 @@ from app.models.user_model import User
 from app.dependencies.auth import get_current_user
 from app.models.vacancy_model import Vacancy
 
-vacancy_router = APIRouter()
+vacancy_router = APIRouter(tags=['Vacancy'])
 
 @vacancy_router.post('/vacancy/add', response_model=VacancyResponse)
 async def add_vacany(

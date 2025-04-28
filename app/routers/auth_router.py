@@ -9,7 +9,7 @@ from app.core.security import get_password_hash, verify_password, create_access_
 from app.dependencies.auth import get_current_user
 
 
-auth_router =APIRouter()
+auth_router =APIRouter(tags=['Auth'])
 
 @auth_router.post('/register', response_model=UserResponse)
 async def register(user:UserCreate, db: AsyncSession=Depends(get_session)):

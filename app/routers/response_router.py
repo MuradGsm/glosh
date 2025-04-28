@@ -8,9 +8,9 @@ from app.schemas.response_schema import ResponseCreate, ResponseOut, ResponseUpd
 from app.db.database import get_session
 from app.dependencies.auth import get_current_user
 
-response_router = APIRouter()
+response_router = APIRouter(tags=["Responses"], prefix='/responses')
 
-@response_router.post('/responses/add', response_model=ResponseOut)
+@response_router.post('/add', response_model=ResponseOut)
 async def add_response(
     resp: ResponseCreate, 
     db: AsyncSession=Depends(get_session),
@@ -44,14 +44,14 @@ async def add_response(
 
     return new_response
 
-@response_router.get('/responses/my')
+@response_router.get('/my')
 async def my_responses(db: AsyncSession= Depends(get_session), current_user: User = Depends(get_current_user)):
     results = await db.execute(select(ResponseModel).filter(ResponseModel.user_id == current_user.id))
     my_responses = results.scalars().all()
 
     return my_responses
 
-@response_router.get('/responses/{vanacy_id}')
+@response_router.get('/{vanacy_id}')
 async def vacancy_response(vanacy_id: int, 
                            db: AsyncSession= Depends(get_session), 
                            current_user: User = Depends(get_current_user)):
@@ -69,7 +69,7 @@ async def vacancy_response(vanacy_id: int,
 
     return respon
 
-@response_router.patch("/responses/{response_id}/update")
+@response_router.patch("/{response_id}/update")
 async def update_response(response_id: int,
                           resup: ResponseUpdate, 
                            db: AsyncSession= Depends(get_session), 
@@ -93,7 +93,7 @@ async def update_response(response_id: int,
 
     return response
 
-@response_router.delete("/responses/{response_id}/delete")
+@response_router.delete("/{response_id}/delete")
 async def delete_response(
     response_id: int,
     db: AsyncSession= Depends(get_session), 
