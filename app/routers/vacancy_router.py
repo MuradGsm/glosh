@@ -3,14 +3,13 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from app.schemas.vacancy_schema import VacancyResponse, VacancyCreate
 from app.db.database import get_session
-from datetime import datetime
 from app.models.user_model import User
 from app.dependencies.auth import get_current_user
 from app.models.vacancy_model import Vacancy
 
 vacancy_router = APIRouter()
 
-@vacancy_router.post('/vacancy/add', response_model=Vacancy)
+@vacancy_router.post('/vacancy/add', response_model=VacancyResponse)
 async def add_vacany(
     vacancy: VacancyCreate, 
     db: AsyncSession= Depends(get_session), 
