@@ -26,6 +26,7 @@ async def register(user:UserCreate, db: AsyncSession=Depends(get_session)):
         first_name=user.first_name,
         last_name=user.last_name,
         email=user.email,
+        username = user.email,
         hashed_password=hashed_password,
         is_employer=user.is_employer,
         is_employee=user.is_employee

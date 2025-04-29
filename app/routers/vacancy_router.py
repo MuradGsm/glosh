@@ -7,9 +7,9 @@ from app.models.user_model import User
 from app.dependencies.auth import get_current_user
 from app.models.vacancy_model import Vacancy
 
-vacancy_router = APIRouter(tags=['Vacancy'])
+vacancy_router = APIRouter(tags=['Vacancy'], prefix='/vacancy')
 
-@vacancy_router.post('/vacancy/add', response_model=VacancyResponse)
+@vacancy_router.post('/add', response_model=VacancyResponse)
 async def add_vacany(
     vacancy: VacancyCreate, 
     db: AsyncSession= Depends(get_session), 
@@ -29,14 +29,14 @@ async def add_vacany(
 
     return new_vacancy
 
-@vacancy_router.get('/vacany/all')
+@vacancy_router.get('/all')
 async def get_all_vacancies(db: AsyncSession = Depends(get_session)):
     result = await db.execute(select(Vacancy).limit(10).offset(0))
     vacancies = result.scalars().all()
 
     return vacancies
 
-@vacancy_router.get('/vacancy/{vacancy_id}', response_model=VacancyResponse)
+@vacancy_router.get('/{vacancy_id}', response_model=VacancyResponse)
 async def get_vacancy(vacancy_id: int, db: AsyncSession=Depends(get_session)):
     result = await db.execute(select(Vacancy).filter(Vacancy.id == vacancy_id))
     vacancy = result.scalar_one_or_none()
@@ -46,7 +46,7 @@ async def get_vacancy(vacancy_id: int, db: AsyncSession=Depends(get_session)):
     
     return vacancy
 
-@vacancy_router.delete('/vacancy/delete/{vacany_id}')
+@vacancy_router.delete('/delete/{vacany_id}')
 async def delete_vacancy(vacancy_id: int, db: AsyncSession = Depends(get_session), current_user: User = Depends(get_current_user)):
     result = await db.execute(select(Vacancy).filter(Vacancy.id == vacancy_id))
     vacancy = result.scalar_one_or_none()
